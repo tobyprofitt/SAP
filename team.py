@@ -1,8 +1,5 @@
-"""
-Class to define a team of 5 (nullable) pets
-"""
 
-from pet import Pet 
+from pet import Pet
 
 class Team:
     def __init__(self, p1=None, p2=None, p3=None, p4=None, p5=None):
@@ -11,39 +8,38 @@ class Team:
         self.p3 = Pet() if p3 is None else Pet(p3)
         self.p4 = Pet() if p4 is None else Pet(p4)
         self.p5 = Pet() if p5 is None else Pet(p5)
-    
+
     def get_pets(self):
         return [self.p1, self.p2, self.p3, self.p4, self.p5]
 
-    def __str__(self):
-        return "Your pets are: {}, {}, {}, {}, and {}, reverse order for battling".format(self.p1, self.p2, self.p3, self.p4, self.p5)
-    
-    def is_alive(self):
+    def get_state(self):
+        state = {
+            "pets": [(pet.name, pet.get_attack(), pet.get_health(), pet.tier, pet.get_trigger(), pet.get_item()) for pet in self.get_pets()]
+        }
+        return state
+
+    def add_pet(self, pet):
+        pets = self.get_pets()
+        for i, existing_pet in enumerate(pets):
+            if existing_pet.name == "Unnamed":
+                pets[i] = pet
+                break
+
+    def get_next_pet(self):
+        pets = self.get_pets()
+        for pet in pets:
+            if pet.is_alive():
+                return pet
+        return None
+
+    def has_available_pet(self):
         pets = self.get_pets()
         for pet in pets:
             if pet.is_alive():
                 return True
         return False
-    
-    def get_front_pet(self):
+
+    def reset_team(self):
         pets = self.get_pets()
         for pet in pets:
-            if pet.is_alive():
-                return pet
-    
-    def add_pet(self, new_pet):
-        """
-        Add a new pet to the team in the first empty slot.
-        """
-        if self.p1.name is None:
-            self.p1 = new_pet
-        elif self.p2.name is None:
-            self.p2 = new_pet
-        elif self.p3.name is None:
-            self.p3 = new_pet
-        elif self.p4.name is None:
-            self.p4 = new_pet
-        elif self.p5.name is None:
-            self.p5 = new_pet
-        else:
-            print("No empty slots available to add a new pet.")
+            pet.reset_pet()

@@ -1,34 +1,38 @@
-"""
-Pet class to define a pet and its attributes.
-"""
 
 class Pet:
-    def __init__(self, name=None, attack=0, health=0, item=None, tier=0, level=0, trigger="NA"):
-        self.health = health
-        self.attack = attack
-        self.item = item
-        self.tier = tier
-        self.level = level
+    def __init__(self, name="Unnamed", attack=0, health=0, tier=1, trigger="start_of_turn"):
         self.name = name
+        self.base_attack = attack
+        self.base_health = health
+        self.tier = tier
         self.trigger = trigger
-
-    def __str__(self):
-        return str(self.name)
-
-    def add_attack(self, a):
-        self.attack = self.attack + a
+        self.current_health = health
+        self.item = None
 
     def get_attack(self):
-        return self.attack
-
-    def add_health(self, h):
-        self.health = self.health + h
+        attack_bonus = 0
+        if self.item == "Sword":
+            attack_bonus = 5
+        return self.base_attack + attack_bonus
 
     def get_health(self):
-        return self.health
-
-    def is_alive(self):
-        return self.health > 0
+        return self.current_health
 
     def get_trigger(self):
         return self.trigger
+
+    def get_item(self):
+        return self.item
+
+    def set_item(self, item):
+        self.item = item
+
+    def is_alive(self):
+        return self.current_health > 0
+
+    def take_damage(self, damage):
+        self.current_health = max(0, self.current_health - damage)
+
+    def reset_pet(self):
+        self.current_health = self.base_health
+        self.item = None
