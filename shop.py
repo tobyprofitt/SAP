@@ -1,4 +1,4 @@
-
+from pet import Pet
 import random
 
 class Shop:
@@ -6,7 +6,7 @@ class Shop:
         self.gold = 10
         self.pet_data = pet_data
         self.available_pets = []
-        self.items = ["Shield", "Sword", "Armor"]
+        self.items = ["Apple", "Honey"]
         self.initialize_shop()
 
     def initialize_shop(self):
@@ -40,6 +40,16 @@ class Shop:
     def roll(self):
         if self.gold >= 1:
             self.available_pets = []
-            self.items = ["Shield", "Sword", "Armor"]
+            self.items = ["Apple", "Honey"]
             self.initialize_shop()
             self.gold -= 1
+
+    def display(self):
+        """Display the available pets and items in the shop."""
+        print("\nAvailable Pets:")
+        for i, pet in enumerate(self.available_pets):
+            print(f"{i}. {pet.name} (Cost: {3}g)")
+        print("\nAvailable Items:")
+        for i, item in enumerate(self.items):
+            print(f"{i}. {item} (Cost: {3}g)")
+        print(f"\nGold: {self.gold}g")

@@ -43,3 +43,19 @@ class Team:
         pets = self.get_pets()
         for pet in pets:
             pet.reset_pet()
+
+    def display_team(team):
+        """Display the details of the pets in the given team."""
+        if not team.get_pets():
+            print("Your team is empty!")
+            return
+        
+        for i, pet in enumerate(team.get_pets()):
+            print(f"Pet {i + 1}:")
+            print(f"  Name: {pet.name}")
+            print(f"  Attack: {pet.get_attack()}")
+            print(f"  HP: {pet.get_health()}")
+            if pet.item:
+                print(f"  Item: {pet.item.name} ({pet.item.description})")
+            else:
+                print("  No item equipped.")
